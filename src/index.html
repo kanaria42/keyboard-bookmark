@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./lib/vue@2.js"></script>
+  <script defer src="./lib/index.js"></script>
+  <script defer src="./main.js"></script>
+  <title>keyboard-bookmark</title>
+</head>
+<body>
+  <div id="app" v-cloak>
+    <div>
+      <input type="text"
+             class="searchword"
+             spellcheck="false"
+             ref="searchword"
+             :value="searchword"
+             @input="input"
+             @keydown.prevent.enter="submit"
+             @keydown.prevent.down="movedown"
+             @keydown.prevent.up="moveup">
+    </div>
+    <div v-for="(bk, idx) in dispBookmarks" :key="bk.id">
+      <el-row type="flex" :gutter="0">
+        <el-col :span="24">
+          <el-card v-bind:class="[ {active: selected == idx}, 'box-card' ]">
+            <el-row type="flex" align="middle">
+              <el-col :span="18">
+                <el-row class="label">
+                  <strong>
+                    {{ idx + 1 + ': ' }}{{ bk.title }}
+                  </strong>
+                </el-row>
+                <el-row :gutter="20" class="label">
+                  &ensp;{{ bk.url }}
+                </el-row>
+                <el-row :gutter="20" class="label">
+                  &ensp;{{ bk.description }}
+                </el-row>
+              </el-col>
+              <el-col :span="6">
+                <el-image v-if="bk.image != null" :src="bk.image" style="height: 60px;" fit="contain"></el-image>
+                <div v-if="bk.image == null" style="height: 60px;"></div>
+              </el-col>
+            </el-row>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+  </div>
+</body>
+</html>
